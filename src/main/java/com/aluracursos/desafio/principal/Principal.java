@@ -6,8 +6,10 @@ import com.aluracursos.desafio.service.ConsumoAPI;
 import com.aluracursos.desafio.service.ConvierteDatos;
 
 import java.util.Comparator;
+import java.util.DoubleSummaryStatistics;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Principal {
 
@@ -46,6 +48,16 @@ public class Principal {
         } else {
             System.out.println("Libro no encontrado");
         }
+
+        // Mostrando estadísticas
+        DoubleSummaryStatistics est = datos.resultados().stream()
+                .filter(d -> d.numeroDeDescargas() > 0)
+                .collect(Collectors.summarizingDouble(DatosLibros::numeroDeDescargas));
+        System.out.println("Media de descargas: "+ est.getAverage());
+        System.out.println("Máxima de descargas: "+ est.getMax());
+        System.out.println("Minima de descargas: "+ est.getMin());
+        System.out.println("Registros evaluados: "+ est.getCount());
+
 
     }
 }
